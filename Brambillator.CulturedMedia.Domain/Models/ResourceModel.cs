@@ -6,7 +6,7 @@ namespace Brambillator.CulturedMedia.Domain.Models
     /// <summary>
     /// Represents a resource. Text or media, related to a specific culture.
     /// </summary>
-    internal class ResourceModel : Entity
+    public class ResourceModel : Entity
     {
         /// <summary>
         /// Alternate key, CultureName, Language part. Ex: "en" in "en-US" or "Cy-az" for "Cy-az-AZ" (Azeri Cyrillic Azerbaijan).
