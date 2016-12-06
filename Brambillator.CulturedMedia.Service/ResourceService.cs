@@ -6,6 +6,7 @@ using Brambillator.CulturedMedia.Domain.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Brambillator.CulturedMedia.Service
 {
@@ -23,7 +24,7 @@ namespace Brambillator.CulturedMedia.Service
         /// <param name="key">Unique identifier for this resource.</param>
         /// <param name="title">Resource Title.</param>
         /// <param name="text">Text body of resource.</param>
-        public static void AddTextResource(string cultureNameOrLanguage, string key, string title, string text)
+        public void AddTextResource(string cultureNameOrLanguage, string key, string title, string text)
         {
             // Culture validation
             KeyValuePair<string, string> pair = CultureName.ValidateCulture(cultureNameOrLanguage);
@@ -31,9 +32,8 @@ namespace Brambillator.CulturedMedia.Service
             string local = pair.Value;
 
             // Validates the existence of this key for the Culture or the Language Set
-            //UnitOfWork.Cultures
-            //if (ExistKey(language, local, context, key))
-            //    throw new DuplicateKeyException(key, language, local);
+            if (ExistKey(language, local, key))
+                throw new DuplicateKeyException(key, language, local);
 
             ResourceModel newEntity = new ResourceModel();
             newEntity.Key = key;
@@ -54,7 +54,7 @@ namespace Brambillator.CulturedMedia.Service
         /// <param name="key">Resource Key.</param>
         /// <param name="cultureName">Full culture name.</param>
         /// <returns>Resource object.</returns>
-        public static Domain.Views.Resource GetResource(string key, string cultureName)
+        public Domain.Views.Resource GetResource(string key, string cultureName)
         {
             // Culture validation
             CultureModel culture = CultureName.GetCultureByName(cultureName);
@@ -63,12 +63,18 @@ namespace Brambillator.CulturedMedia.Service
                 throw new UnsupportedCultureException(cultureName);
 
             // Retrive by culture name
-            ResourceModel res = UnitOfWork.Resources.Where(r => r.Key == key && r.CultureName_Language == culture.Language && r.CultureName_Local == culture.Local).FirstOrDefault();
+            ResourceModel res = UnitOfWork.Resources.AsQueryable()
+                                    .Where(r => r.Key == key 
+                                        && r.CultureName_Language == culture.Language 
+                                        && r.CultureName_Local == culture.Local).FirstOrDefault();
             if (res != null)
                 return res.ToViewModel();
 
             // If not found by culture name, get by language
-            res = UnitOfWork.Resources.Where(r => r.Key == key && r.CultureName_Language == culture.Language && (r.CultureName_Local == string.Empty || r.CultureName_Local == culture.Local)).FirstOrDefault();
+            res = UnitOfWork.Resources.AsQueryable()
+                                    .Where(r => r.Key == key 
+                                        && r.CultureName_Language == culture.Language 
+                                        && (r.CultureName_Local == string.Empty || r.CultureName_Local == culture.Local)).FirstOrDefault();
             if (res != null)
                 return res.ToViewModel();
             else
@@ -83,13 +89,13 @@ namespace Brambillator.CulturedMedia.Service
         /// <param name="context">Current context.</param>
         /// <param name="key">Key to verify.</param>
         /// <returns>Boolean indicator.</returns>
-        //private static bool ExistKey(string language, string local, CmContext context, string key)
-        //{
-        //    if (string.IsNullOrWhiteSpace(local))
-        //        return context.Resource.Any(r => r.Key == key);
-        //    else
-        //        return context.Resource.Any(r => r.Key == key && r.CultureName_Language == language && r.CultureName_Local == local);
-        //}
+        private bool ExistKey(string language, string local, string key)
+        {
+            if (string.IsNullOrWhiteSpace(local))
+                return UnitOfWork.Resources.AsQueryable().Any(r => r.Key == key);
+            else
+                return UnitOfWork.Resources.AsQueryable().Any(r => r.Key == key && r.CultureName_Language == language && r.CultureName_Local == local);
+        }
 
         public void Dispose()
         {
