@@ -22,6 +22,12 @@ namespace Brambillator.CulturedMedia.Repositories.EF
             resourceRepository = new EfRepository<ResourceModel>(ResourceSet);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //TODO: Make provider configurable
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=CulturedMedia;Trusted_Connection=True;");
+        }
+
         public IRepository<CultureModel> Cultures
         {
             get

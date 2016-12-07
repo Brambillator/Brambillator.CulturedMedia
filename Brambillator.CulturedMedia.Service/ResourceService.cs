@@ -49,12 +49,39 @@ namespace Brambillator.CulturedMedia.Service
         }
 
         /// <summary>
+        /// Removes a resource from a specified culture.
+        /// </summary>
+        /// <param name="culture">Culture that "owns" the resource.</param>
+        /// <param name="key">Resource key.</param>
+        public void RemoveResource(CultureModel culture, string key)
+        {
+            ResourceModel res = UnitOfWork.Resources.AsQueryable()
+                                    .Where(r => r.Key == key
+                                        && r.CultureName_Language == culture.Language
+                                        && r.CultureName_Local == culture.Local).FirstOrDefault();
+            if(res != null)
+                UnitOfWork.Resources.Remove(res);
+        }
+
+        /// <summary>
+        /// Removes recources with specific key from all cultures.
+        /// </summary>
+        /// <param name="key">Resource key.</param>
+        public void RemoveResourceForAllCultures(string key)
+        {
+            ResourceModel[] resourceList = UnitOfWork.Resources.AsQueryable().Where(r => r.Key == key).ToArray();
+
+            foreach (var res in resourceList)
+                UnitOfWork.Resources.Remove(res);
+        }
+
+        /// <summary>
         /// Get a resource by Key and CultureName.
         /// </summary>
         /// <param name="key">Resource Key.</param>
         /// <param name="cultureName">Full culture name.</param>
         /// <returns>Resource object.</returns>
-        public Domain.Views.Resource GetResource(string key, string cultureName)
+        public Domain.Views.Resource GetResource(string cultureName, string key)
         {
             // Culture validation
             CultureModel culture = CultureName.GetCultureByName(cultureName);
