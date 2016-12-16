@@ -17,6 +17,16 @@ namespace Brambillator.CulturedMedia.Service
     {
         public ICulturedMediaUnitOfWork UnitOfWork { get; set; }
 
+        public ResourceService()
+        {
+
+        }
+
+        public ResourceService(ICulturedMediaUnitOfWork unitOfWork)
+        {
+            UnitOfWork = unitOfWork;
+        }
+        
         /// <summary>
         /// Creates a new text resource with given key for given CultureName or Language.
         /// </summary>

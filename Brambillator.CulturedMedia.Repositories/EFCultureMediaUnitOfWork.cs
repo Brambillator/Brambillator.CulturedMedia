@@ -1,10 +1,7 @@
-﻿using Brambillator.CulturedMedia.Domain.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Brambillator.CulturedMedia.Domain.Models;
+﻿using Brambillator.CulturedMedia.Domain.Models;
+using Brambillator.CulturedMedia.Domain.UnitOfWork;
 using Brambillator.Infrastructure.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Brambillator.CulturedMedia.Repositories.EF
 {

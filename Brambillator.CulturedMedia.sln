@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.Service", "Brambillator.CulturedMedia.Service\Brambillator.CulturedMedia.Service.csproj", "{2377DF41-1FD3-41E9-BC30-66260E9F166A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.Console", "Brambillator.CulturedMedia.Console\Brambillator.CulturedMedia.Console.csproj", "{C5505EB3-F1C3-44FD-812A-055596292321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.Repositories.Memory", "Brambillator.CultureMedia.Repositories.Memory\Brambillator.CulturedMedia.Repositories.Memory.csproj", "{23519041-B806-4430-90E6-6BDC14B8411B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{2377DF41-1FD3-41E9-BC30-66260E9F166A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2377DF41-1FD3-41E9-BC30-66260E9F166A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2377DF41-1FD3-41E9-BC30-66260E9F166A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5505EB3-F1C3-44FD-812A-055596292321}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5505EB3-F1C3-44FD-812A-055596292321}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5505EB3-F1C3-44FD-812A-055596292321}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5505EB3-F1C3-44FD-812A-055596292321}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23519041-B806-4430-90E6-6BDC14B8411B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23519041-B806-4430-90E6-6BDC14B8411B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23519041-B806-4430-90E6-6BDC14B8411B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23519041-B806-4430-90E6-6BDC14B8411B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
