@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Brambillator.CulturedMedia.Domain\Brambillator.CulturedMedia.Domain.csproj" />
-    <ProjectReference Include="..\Brambillator.CulturedMedia.Repositories\Brambillator.CulturedMedia.Repositories.csproj" />
   </ItemGroup>
 
   <ItemGroup>

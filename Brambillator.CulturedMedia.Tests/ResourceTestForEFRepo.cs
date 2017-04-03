@@ -7,11 +7,15 @@ namespace Brambillator.CulturedMedia.Tests
 {
     public class ResourceTestForEFRepo
     {
+        public ResourceTestForEFRepo()
+        {
+            Repositories.EFCulturedMediaUnitOfWorkInitializer.Initialize(new EFCulturedMediaUnitOfWork());
+        }
+
         [Fact]
         public void ResourceTestForEFRepo_AddAndGet()
         {
-            ResourceService service = new ResourceService();
-            service.UnitOfWork = new EFCultureMediaUnitOfWork();
+            ResourceService service = new ResourceService(new EFCulturedMediaUnitOfWork());
 
             service.AddTextResource("en-US", "BALL", "Bola", "Bola");
             service.AddTextResource("pt-BR", "BALL", "Ball", "Ball");
@@ -23,7 +27,7 @@ namespace Brambillator.CulturedMedia.Tests
             Assert.NotNull(resBall);
             Assert.Equal(resBall.Text, "Ball");
 
-            service.RemoveResourceForAllCultures("BALL");
+            //service.RemoveResourceForAllCultures("BALL");
             service.UnitOfWork.Commit();
         }
     }

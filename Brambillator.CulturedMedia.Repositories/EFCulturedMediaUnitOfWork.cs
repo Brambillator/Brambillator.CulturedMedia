@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Brambillator.CulturedMedia.Repositories.EF
 {
-    public class EFCultureMediaUnitOfWork : DbContext, ICulturedMediaUnitOfWork
+    public class EFCulturedMediaUnitOfWork : DbContext, ICulturedMediaUnitOfWork
     {
         private readonly EfRepository<CultureModel> cultureRepository;
         private readonly EfRepository<ResourceModel> resourceRepository;
 
-        public DbSet<CultureModel> CultureSet { get; set; }
-        public DbSet<ResourceModel> ResourceSet { get; set; }
+        private DbSet<CultureModel> CultureSet { get; set; }
+        private DbSet<ResourceModel> ResourceSet { get; set; }
 
-        public EFCultureMediaUnitOfWork()
+        public EFCulturedMediaUnitOfWork()
         {
             cultureRepository = new EfRepository<CultureModel>(CultureSet);
             resourceRepository = new EfRepository<ResourceModel>(ResourceSet);
@@ -22,7 +22,13 @@ namespace Brambillator.CulturedMedia.Repositories.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //TODO: Make provider configurable
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=CulturedMedia;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\v11.0;Database=CulturedMedia;Trusted_Connection=True;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CultureModel>().ToTable("Cultures");
+            modelBuilder.Entity<ResourceModel>().ToTable("Resources");
         }
 
         public IRepository<CultureModel> Cultures

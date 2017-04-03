@@ -3,6 +3,7 @@ using Brambillator.CulturedMedia.Domain.Exceptions;
 using Brambillator.CulturedMedia.Domain.Lookups;
 using Brambillator.CulturedMedia.Domain.Models;
 using Brambillator.CulturedMedia.Domain.UnitOfWork;
+using Brambillator.CulturedMedia.Repositories.EF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Brambillator.CulturedMedia.Service
 
         public ResourceService()
         {
-
+            UnitOfWork = new EFCulturedMediaUnitOfWork();
         }
 
         public ResourceService(ICulturedMediaUnitOfWork unitOfWork)
