@@ -1,0 +1,25 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/Brambillator.CulturedMedia.ConsoleApp/bin
+/Brambillator.CulturedMedia.ConsoleApp/obj
+
+/Brambillator.CulturedMedia.Domain/bin
+/Brambillator.CulturedMedia.Domain/obj
+/Brambillator.CulturedMedia.Domain/Brambillator.CulturedMedia.Domain.csproj.user
+
+/Brambillator.CulturedMedia.Repositories/bin
+/Brambillator.CulturedMedia.Repositories/obj
+
+/Brambillator.CulturedMedia.Service/bin
+/Brambillator.CulturedMedia.Service/obj
+
+/Brambillator.CulturedMedia.Tests/bin
+/Brambillator.CulturedMedia.Tests/obj
+
+/.vs/Brambillator.CulturedMedia/.suo
+/.vs/Brambillator.CulturedMedia/.user
+
+/.vs/Brambillator.CulturedMedia/v14/.suo
+/.vs/Brambillator.CulturedMedia/v14/.suo
