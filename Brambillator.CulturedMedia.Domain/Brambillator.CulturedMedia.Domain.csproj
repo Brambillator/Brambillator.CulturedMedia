@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Brambillator.Infrastructure.Domain">
-      <HintPath>..\..\References\Brambillator.Infrastructure.Domain.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Brambillator.Infrastructure.Domain" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

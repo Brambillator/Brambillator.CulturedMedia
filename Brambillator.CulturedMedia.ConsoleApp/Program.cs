@@ -3,15 +3,15 @@ using System.Linq;
 using System.Collections.Generic;
 using Brambillator.CulturedMedia.Service;
 using Brambillator.CulturedMedia.Repositories.EF;
+using Brambillator.CulturedMedia.Domain.Views;
 
 namespace Brambillator.CulturedMedia.ConsoleApp
 {
     class Program
     {
         private static bool quit = false;
-        ResourceService service = new ResourceService();
-
         private static EFCulturedMediaUnitOfWork unitOfWork = new EFCulturedMediaUnitOfWork();
+        private static ResourceService service = new ResourceService(unitOfWork);
 
         static void Main(string[] args)
         {
@@ -22,7 +22,8 @@ namespace Brambillator.CulturedMedia.ConsoleApp
             Repositories.EFCulturedMediaUnitOfWorkInitializer.Initialize(unitOfWork);
             Console.WriteLine("");
 
-            Console.WriteLine("Welcome to CulturedMedia. Type in a command (help for list).");
+            Console.WriteLine("Welcome to CulturedMedia. Type in a command (help for list):");
+            Console.WriteLine("");
 
             while (!quit)
             {
@@ -46,10 +47,13 @@ namespace Brambillator.CulturedMedia.ConsoleApp
             new Dictionary<string, Action<string[]>>()
             {
                 { "help", HelpFunc },
-                { "echo", Echo },
                 { "quit", Quit },
                 { "exit", Quit },
-                { "addtextresource" , AddTextResource }
+                { "addtextresource" , AddTextResource },
+                { "addtitledtextresource", AddTitledTextResource},
+                { "removeresourceforculture", RemoveResourceForCulture},
+                { "removeresource", RemoveResource },
+                { "getresource", GetResource}
             };
 
 
@@ -58,31 +62,134 @@ namespace Brambillator.CulturedMedia.ConsoleApp
             quit = true;
         }
 
-        private static void Echo(string[] args)
+        private static void AddTextResource(string[] args)
         {
-            Console.WriteLine("Command line arguments:");
-            foreach (string arg in args)
+            if (args.Length < 3)
             {
-                Console.WriteLine("# " + arg);
+                Console.WriteLine("Not enough arguments.");
+                return;
+            }
+
+            var cultureName = args[0];
+            var textKey = args[1];
+            var text = string.Join(" ", args, 2, args.Length - 2);
+
+            try
+            {
+                service.AddTextResource(cultureName, textKey, string.Empty, text);
+                Console.WriteLine(string.Format("Added - Language: {0}, Key: {1}, Text: '{2}';", cultureName, textKey, text));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        private static void AddTitledTextResource(string[] args)
+        {
+            if (args.Length < 4)
+            {
+                Console.WriteLine("Not enough arguments.");
+                return;
+            }
+
+            var cultureName = args[0];
+            var textKey = args[1];
+            var textTitle = args[2];
+            var text = string.Join(" ", args, 3, args.Length - 3);
+
+            try
+            {
+                service.AddTextResource(cultureName, textKey, textTitle, text);
+                Console.WriteLine(string.Format("Added - Language: {0}, Key: {1}, Text: '{2}';", cultureName, textKey, text));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        private static void RemoveResourceForCulture(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Not enough arguments.");
+                return;
+            }
+
+            var cultureName = args[0];
+            var textKey = args[1];
+
+            try
+            {
+                service.RemoveResource(cultureName, textKey);
+                Console.WriteLine(string.Format("Removed '{0}' for '{1}' culture.", textKey, cultureName));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
-        private static void AddTextResource(string[] args)
+        private static void RemoveResource(string[] args)
         {
-            if (args.Length < 2) return;
+            if (args.Length < 1)
+            {
+                Console.WriteLine("Not enough arguments.");
+                return;
+            }
 
-            string language = args[0];
-            string text = string.Join(" ", args, 1, args.Length - 1);
+            var textKey = args[0];
 
-            Console.WriteLine("Adding Language:'" + language + "', Text: '" + text + "'");
+            try
+            {
+                service.RemoveResourceForAllCultures(textKey);
+                Console.WriteLine(string.Format("Removed '{0}' for all cultures.", textKey));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private static void GetResource(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Not enough arguments.");
+                return;
+            }
+
+            var cultureName = args[0];
+            var textKey = args[1];
+
+            try
+            {
+                Resource resource = service.GetResource(cultureName, textKey);
+                Console.WriteLine(string.Format("Returned resource {{ Key: '{0}', Title: '{1}', Text: '{2}' }}.", resource.Key, resource.Title, resource.Text));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public static void HelpFunc(string[] args)
         {
-            Console.WriteLine("===== SOME MEANINGFULL HELP ==== ");
-            Console.WriteLine("Commands:");
+            Console.WriteLine("");
+            Console.WriteLine("===== HELP ==== ");
+            Console.WriteLine("Brambillator.CulturedMedia.ConsoleApp v 0.1");
+            Console.WriteLine("");
+            Console.WriteLine("Available Commands:");
             Console.WriteLine("---------");
-            Console.WriteLine("AddTextResource \"language\" \"text\"");
+            Console.WriteLine("AddTextResource \"Culture\" \"Key\" \"Text\"");
+            Console.WriteLine("AddTitledTextResource \"Culture\" \"Key\" \"Title\" \"Text\"");
+            Console.WriteLine("RemoveResourceForCulture \"Culture\" \"Key\"");
+            Console.WriteLine("RemoveResource \"Key\"");
+            Console.WriteLine("GetResource \"Culture\" \"Key\"");
+            Console.WriteLine("");
             Console.WriteLine("");
         }
     }

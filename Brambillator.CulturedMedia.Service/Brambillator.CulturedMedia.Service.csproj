@@ -5,14 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Brambillator.CulturedMedia.Domain\Brambillator.CulturedMedia.Domain.csproj" />
-    <ProjectReference Include="..\Brambillator.CulturedMedia.Repositories\Brambillator.CulturedMedia.Repositories.csproj" />
+    <PackageReference Include="Brambillator.Infrastructure.Domain" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Brambillator.Infrastructure.Domain">
-      <HintPath>..\..\References\Brambillator.Infrastructure.Domain.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Brambillator.CulturedMedia.Domain\Brambillator.CulturedMedia.Domain.csproj" />
+    <ProjectReference Include="..\Brambillator.CulturedMedia.Repositories\Brambillator.CulturedMedia.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

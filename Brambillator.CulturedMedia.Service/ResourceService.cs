@@ -50,13 +50,30 @@ namespace Brambillator.CulturedMedia.Service
             newEntity.Key = key;
             newEntity.CultureName_Language = language;
             newEntity.CultureName_Local = local;
-            newEntity.Title = title;
+            if(title != string.Empty) newEntity.Title = title;
             newEntity.Text = text;
             newEntity.ResourceType = ResourceType.Text;
 
             UnitOfWork.Resources.Add(newEntity);
 
             UnitOfWork.Commit();
+        }
+
+        /// <summary>
+        /// Removes a resource from a specified culture.
+        /// </summary>
+        /// <param name="culture">Culture that "owns" the resource.</param>
+        /// <param name="key">Resource key.</param>
+        public void RemoveResource(string cultureName, string key)
+        {
+            CultureModel culture = CultureName.GetCultureByName(cultureName);
+
+            ResourceModel res = UnitOfWork.Resources.AsQueryable()
+                                    .Where(r => r.Key == key
+                                        && r.CultureName_Language == culture.Language
+                                        && r.CultureName_Local == culture.Local).FirstOrDefault();
+            if (res != null)
+                UnitOfWork.Resources.Remove(res);
         }
 
         /// <summary>
