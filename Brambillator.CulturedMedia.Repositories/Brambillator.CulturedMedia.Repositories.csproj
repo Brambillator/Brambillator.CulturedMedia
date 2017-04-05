@@ -5,17 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Brambillator.Infrastructure.Domain" Version="1.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Brambillator.CulturedMedia.Domain\Brambillator.CulturedMedia.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Brambillator.Infrastructure.Domain">
-      <HintPath>..\..\References\Brambillator.Infrastructure.Domain.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
