@@ -53,7 +53,9 @@ namespace Brambillator.CulturedMedia.ConsoleApp
                 { "addtitledtextresource", AddTitledTextResource},
                 { "removeresourceforculture", RemoveResourceForCulture},
                 { "removeresource", RemoveResource },
-                { "getresource", GetResource}
+                { "getresource", GetResource},
+                { "createupdateresource", CreateUpdateResource},
+                { "save", Save }
             };
 
 
@@ -84,6 +86,39 @@ namespace Brambillator.CulturedMedia.ConsoleApp
                 Console.WriteLine(ex.Message);
             }
 
+        }
+
+        private static void CreateUpdateResource(string[] args)
+        {
+            if (args.Length < 3)
+            {
+                Console.WriteLine("Not enough arguments.");
+                return;
+            }
+
+            var cultureName = args[0];
+            var textKey = args[1];
+            var text = string.Join(" ", args, 2, args.Length - 2);
+
+            try
+            {
+                Resource resource = new Resource();
+                resource.Key = textKey;
+                resource.Text = text;
+
+                service.CreateOrUpdateResource(cultureName, resource);
+                Console.WriteLine(string.Format("Saved - Language: {0}, Key: {1}, Text: '{2}';", cultureName, textKey, text));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        private static void Save(string[] args)
+        {
+            service.UnitOfWork.Commit();
         }
 
         private static void AddTitledTextResource(string[] args)
@@ -189,6 +224,8 @@ namespace Brambillator.CulturedMedia.ConsoleApp
             Console.WriteLine("RemoveResourceForCulture \"Culture\" \"Key\"");
             Console.WriteLine("RemoveResource \"Key\"");
             Console.WriteLine("GetResource \"Culture\" \"Key\"");
+            Console.WriteLine("CreateUpdateResource \"Culture\" \"Key\" \"Text\"");
+            Console.WriteLine("Save");
             Console.WriteLine("");
             Console.WriteLine("");
         }

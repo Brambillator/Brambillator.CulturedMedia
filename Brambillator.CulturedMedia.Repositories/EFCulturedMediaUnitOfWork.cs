@@ -22,7 +22,8 @@ namespace Brambillator.CulturedMedia.Repositories.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //TODO: Make provider configurable
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\v11.0;Database=CulturedMedia;Trusted_Connection=True;");
+            // 
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=CulturedMedia;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

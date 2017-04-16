@@ -14,7 +14,7 @@ namespace Brambillator.CulturedMedia.Service
     /// <summary>
     /// Service for resource management.
     /// </summary>
-    public class ResourceService : IDisposable
+    public class ResourceService : IResourceService
     {
         public ICulturedMediaUnitOfWork UnitOfWork { get; set; }
 
@@ -56,7 +56,43 @@ namespace Brambillator.CulturedMedia.Service
 
             UnitOfWork.Resources.Add(newEntity);
 
-            UnitOfWork.Commit();
+            //UnitOfWork.Commit();
+        }
+
+        /// <summary>
+        /// Adds a resource or update existing one.
+        /// </summary>
+        /// <param name="cultureNameOrLanguage">Related culture code. Ex: en-US</param>
+        /// <param name="resource">Ressource to add or update.</param>
+        public void CreateOrUpdateResource(string cultureNameOrLanguage, Domain.Views.Resource resource)
+        {
+            // Culture validation
+            KeyValuePair<string, string> pair = CultureName.ValidateCulture(cultureNameOrLanguage);
+            string language = pair.Key;
+            string local = pair.Value;
+
+            ResourceModel e;
+            e = UnitOfWork.Resources.AsQueryable()
+                                    .Where(r => r.Key == resource.Key
+                                        && r.CultureName_Language == language
+                                        && r.CultureName_Local == local).FirstOrDefault();
+
+            if (e == null)
+            {
+                e = new ResourceModel(local, language, resource);
+                UnitOfWork.Resources.Add(e);
+                e.State = Infrastructure.Domain.Models.EntityState.Added;
+            }
+            else
+            {
+                UnitOfWork.Resources.Attach(e);
+                e.State = Infrastructure.Domain.Models.EntityState.Modified;
+            }
+
+            e.MediaPath = resource.MediaPath;
+            e.ResourceType = resource.ResourceType;
+            e.Text = resource.Text;
+            e.Title = resource.Title;
         }
 
         /// <summary>
@@ -133,7 +169,32 @@ namespace Brambillator.CulturedMedia.Service
             if (res != null)
                 return res.ToViewModel();
             else
-                return new Domain.Views.Resource() { Key = key, Title = "Resource not found" }; // CompiledResources.StringResource.ResourceNotFound
+                return null;
+        }
+
+        /// <summary>
+        /// Get a resource by Key and CultureName.
+        /// </summary>
+        /// <param name="key">Resource Key.</param>
+        /// <param name="cultureName">Full culture name.</param>
+        /// <returns>Resource object.</returns>
+        public Domain.Views.Resource GetResourceExactCulture(string cultureName, string key)
+        {
+            // Culture validation
+            CultureModel culture = CultureName.GetCultureByName(cultureName);
+
+            if (culture == null)
+                throw new UnsupportedCultureException(cultureName);
+
+            // Retrive by culture name
+            ResourceModel res = UnitOfWork.Resources.AsQueryable()
+                                    .Where(r => r.Key == key
+                                        && r.CultureName_Language == culture.Language
+                                        && r.CultureName_Local == culture.Local).FirstOrDefault();
+            if (res != null)
+                return res.ToViewModel();
+            else
+                return null;
         }
 
         /// <summary>
@@ -144,7 +205,7 @@ namespace Brambillator.CulturedMedia.Service
         /// <param name="context">Current context.</param>
         /// <param name="key">Key to verify.</param>
         /// <returns>Boolean indicator.</returns>
-        private bool ExistKey(string language, string local, string key)
+        public bool ExistKey(string language, string local, string key)
         {
             if (string.IsNullOrWhiteSpace(local))
                 return UnitOfWork.Resources.AsQueryable().Any(r => r.Key == key);

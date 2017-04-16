@@ -8,6 +8,20 @@ namespace Brambillator.CulturedMedia.Domain.Models
     /// </summary>
     public class ResourceModel : Entity
     {
+        public ResourceModel()
+        { }
+
+        public ResourceModel(string local, string language, Views.Resource view)
+        {
+            this.Key = view.Key;
+            this.Title = view.Title;
+            this.MediaPath = view.MediaPath;
+            this.ResourceType = view.ResourceType;
+            this.Text = view.Text;
+            this.CultureName_Local = local;
+            this.CultureName_Language = language;
+        }
+
         /// <summary>
         /// Alternate key, CultureName, Language part. Ex: "en" in "en-US" or "Cy-az" for "Cy-az-AZ" (Azeri Cyrillic Azerbaijan).
         /// </summary>
