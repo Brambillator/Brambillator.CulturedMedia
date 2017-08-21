@@ -298,7 +298,16 @@ namespace Brambillator.CulturedMedia.Domain
             allCultures = cultures.ToArray();
         }
 
-        
+
+        /// <summary>
+        /// Get all valid cultures.
+        /// </summary>
+        /// <returns>Array of CultureModel.</returns>
+        public static CultureModel[] GetValidCultures()
+        {
+            return allCultures;
+        }
+
         /// <summary>
         /// Get a culture by CultureName.
         /// </summary>

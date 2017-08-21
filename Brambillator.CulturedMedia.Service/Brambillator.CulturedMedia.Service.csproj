@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Brambillator.Infrastructure.Domain" Version="1.0.0" />
+    <PackageReference Include="Brambillator.Infrastructure.Domain" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

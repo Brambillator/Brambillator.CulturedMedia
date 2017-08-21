@@ -169,7 +169,7 @@ namespace Brambillator.CulturedMedia.Service
             if (res != null)
                 return res.ToViewModel();
             else
-                return null;
+                return new Domain.Views.Resource(key);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Brambillator.CulturedMedia.Service
             if (res != null)
                 return res.ToViewModel();
             else
-                return null;
+                return new Domain.Views.Resource(key);
         }
 
         /// <summary>

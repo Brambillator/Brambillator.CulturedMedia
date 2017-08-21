@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.Domain", "Brambillator.CulturedMedia.Domain\Brambillator.CulturedMedia.Domain.csproj", "{1BD86AD2-4905-480B-A06A-F389C87075B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brambillator.CulturedMedia.Domain", "Brambillator.CulturedMedia.Domain\Brambillator.CulturedMedia.Domain.csproj", "{1BD86AD2-4905-480B-A06A-F389C87075B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.Repositories", "Brambillator.CulturedMedia.Repositories\Brambillator.CulturedMedia.Repositories.csproj", "{C7FEE389-E075-45C3-BCC0-522FCFEDBC63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brambillator.CulturedMedia.Repositories", "Brambillator.CulturedMedia.Repositories\Brambillator.CulturedMedia.Repositories.csproj", "{C7FEE389-E075-45C3-BCC0-522FCFEDBC63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.Service", "Brambillator.CulturedMedia.Service\Brambillator.CulturedMedia.Service.csproj", "{1F60FE7D-5B98-4510-8C2B-E8956C68D517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brambillator.CulturedMedia.Service", "Brambillator.CulturedMedia.Service\Brambillator.CulturedMedia.Service.csproj", "{1F60FE7D-5B98-4510-8C2B-E8956C68D517}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.Tests", "Brambillator.CulturedMedia.Tests\Brambillator.CulturedMedia.Tests.csproj", "{BE176208-65F7-49A1-9439-6106B66A87D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brambillator.CulturedMedia.Tests", "Brambillator.CulturedMedia.Tests\Brambillator.CulturedMedia.Tests.csproj", "{BE176208-65F7-49A1-9439-6106B66A87D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brambillator.CulturedMedia.ConsoleApp", "Brambillator.CulturedMedia.ConsoleApp\Brambillator.CulturedMedia.ConsoleApp.csproj", "{6793D213-E504-4669-8970-B71AB9E54C78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brambillator.CulturedMedia.ConsoleApp", "Brambillator.CulturedMedia.ConsoleApp\Brambillator.CulturedMedia.ConsoleApp.csproj", "{6793D213-E504-4669-8970-B71AB9E54C78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBFA988F-8686-4E75-A2A4-245FFCB884C0}
 	EndGlobalSection
 EndGlobal
