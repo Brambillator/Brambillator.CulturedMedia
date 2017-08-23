@@ -33,6 +33,11 @@ namespace Brambillator.CulturedMedia.Domain.Models
         public string CultureName_Local { get; set; }
 
         /// <summary>
+        /// Formatted cultureName (concatenation of Language-Local)
+        /// </summary>
+        public string CultureName { get { return string.Format("{0}-{1}", this.CultureName_Language, this.CultureName_Local); } }
+
+        /// <summary>
         /// Unique key, provided by user or client application, for identifying a resource.
         /// </summary>
         /// <value>String identifying the resource.</value>
@@ -70,6 +75,7 @@ namespace Brambillator.CulturedMedia.Domain.Models
         {
             Views.Resource vm = new Views.Resource();
 
+            vm.CultureName = this.CultureName;
             vm.Key = this.Key;
             vm.Title = this.Title;
             vm.MediaPath = this.MediaPath;

@@ -27,6 +27,7 @@ namespace Brambillator.CulturedMedia.ConsoleApp
 
             DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseSqlServer(connectionStr);
+            
 
             unitOfWork = new EFCulturedMediaUnitOfWork(optionsBuilder.Options);
             resourceService = new ResourceService(unitOfWork);
@@ -69,6 +70,7 @@ namespace Brambillator.CulturedMedia.ConsoleApp
                 { "removeresource", RemoveResource },
                 { "getresource", GetResource},
                 { "createupdateresource", CreateUpdateResource},
+                { "listresources", ListResources},
                 { "save", Save }
             };
 
@@ -90,6 +92,25 @@ namespace Brambillator.CulturedMedia.ConsoleApp
                 Console.WriteLine(string.Format("{0} - {1}", model.CultureName, model.DisplayName));
             }
             Console.WriteLine(string.Format("{0} valid cultures.", cultures.Length));
+            Console.WriteLine("");
+        }
+
+        private static void ListResources(string[] args)
+        {
+            if (args.Length < 1)
+            {
+                Console.WriteLine("Not enough arguments.");
+                return;
+            }
+
+            string key = args[0];
+
+            Resource[] allResources = resourceService.GetResourceForAllCultures(key);
+
+            foreach(Resource res in allResources)
+            {
+                Console.WriteLine(string.Format("CultureName: {0}, Key: {1}, Title: {2}, Text: {3}", res.CultureName, res.Key, res.Title, res.Text));
+            }
             Console.WriteLine("");
         }
 
@@ -253,6 +274,7 @@ namespace Brambillator.CulturedMedia.ConsoleApp
             Console.WriteLine("RemoveResource [Key]");
             Console.WriteLine("GetResource [Culture] [Key]");
             Console.WriteLine("CreateUpdateResource [Culture] [Key] [Text for this key on this culture]");
+            Console.WriteLine("ListResources [Key]");
             Console.WriteLine("Save");
             Console.WriteLine("");
             Console.WriteLine("");

@@ -17,8 +17,9 @@ namespace Brambillator.CulturedMedia.Domain.Views
         /// Initializes a new instance of the <see cref="Resource" /> class where Title and Text will be initialized with key value.
         /// </summary>
         /// <param name="key">Value for unique key.</param>
-        public Resource(string key)
+        public Resource(string cultureName, string key)
         {
+            CultureName = cultureName;
             Key = key;
             Title = key;
             Text = key;
@@ -30,12 +31,19 @@ namespace Brambillator.CulturedMedia.Domain.Views
         /// <param name="key">Value for unique key.</param>
         /// <param name="title">Title text.</param>
         /// <param name="text">Text content.</param>
-        public Resource(string key, string title, string text)
+        public Resource(string cultureName, string key, string title, string text)
         {
+            CultureName = cultureName;
             Key = key;
             Title = title;
             Text = text;
         }
+
+        /// <summary>
+        /// Culture name for this resource.
+        /// Ex: "en-US"
+        /// </summary>
+        public string CultureName { get; set; }
 
         /// <summary>
         /// Unique key, provided by user or client application, for identifying a resource.

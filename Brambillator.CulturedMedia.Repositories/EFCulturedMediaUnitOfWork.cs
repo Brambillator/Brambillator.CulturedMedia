@@ -9,7 +9,7 @@ namespace Brambillator.CulturedMedia.Repositories.EF
     {
         private readonly EfRepository<ResourceModel> resourceRepository;
 
-        private DbSet<ResourceModel> ResourceSet { get; set; }
+        private DbSet<ResourceModel> Resource { get; set; }
 
         /// <summary>
         /// Initializes a new instance of Unit of Work for EntityFramework.
@@ -17,7 +17,7 @@ namespace Brambillator.CulturedMedia.Repositories.EF
         /// </summary>
         public EFCulturedMediaUnitOfWork(DbContextOptions options) : base(options)
         {
-            resourceRepository = new EfRepository<ResourceModel>(ResourceSet);
+            resourceRepository = new EfRepository<ResourceModel>(Resource);
         }
 
         public IRepository<ResourceModel> Resources

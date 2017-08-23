@@ -5,10 +5,8 @@ using Brambillator.CulturedMedia.Domain.Models;
 using Brambillator.CulturedMedia.Domain.UnitOfWork;
 using Brambillator.CulturedMedia.Repositories.EF;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Brambillator.CulturedMedia.Service
 {
@@ -168,7 +166,7 @@ namespace Brambillator.CulturedMedia.Service
             if (res != null)
                 return res.ToViewModel();
             else
-                return new Domain.Views.Resource(key);
+                return new Domain.Views.Resource(cultureName, key);
         }
 
         /// <summary>
@@ -193,7 +191,7 @@ namespace Brambillator.CulturedMedia.Service
             if (res != null)
                 return res.ToViewModel();
             else
-                return new Domain.Views.Resource(key);
+                return new Domain.Views.Resource(cultureName, key);
         }
 
         /// <summary>
