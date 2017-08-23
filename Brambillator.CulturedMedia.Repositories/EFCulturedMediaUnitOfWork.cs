@@ -9,7 +9,6 @@ namespace Brambillator.CulturedMedia.Repositories.EF
     public class EFCulturedMediaUnitOfWork : DbContext, ICulturedMediaUnitOfWork
     {
         private readonly EfRepository<ResourceModel> resourceRepository;
-        private readonly string connectionStr;
 
         private DbSet<ResourceModel> ResourceSet { get; set; }
 
@@ -17,9 +16,8 @@ namespace Brambillator.CulturedMedia.Repositories.EF
         /// Initializes a new instance of Unit of Work for EntityFramework.
         /// If connectionString is not supplied will try to use LocalDB with DataBase "CulturedMedia".
         /// </summary>
-        public EFCulturedMediaUnitOfWork()
+        public EFCulturedMediaUnitOfWork(DbContextOptions options) : base(options)
         {
-            connectionStr = @"Server=(localdb)\MSSQLLocalDB;Database=CulturedMedia;Trusted_Connection=True;";
             resourceRepository = new EfRepository<ResourceModel>(ResourceSet);
         }
 
@@ -29,18 +27,7 @@ namespace Brambillator.CulturedMedia.Repositories.EF
         /// <param name="connectionString">Data source Connection String</param>
         public EFCulturedMediaUnitOfWork(string connectionString)
         {
-            connectionStr = connectionString;
             resourceRepository = new EfRepository<ResourceModel>(ResourceSet);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(connectionStr);
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ResourceModel>().ToTable("Resources");
         }
 
         public IRepository<ResourceModel> Resources

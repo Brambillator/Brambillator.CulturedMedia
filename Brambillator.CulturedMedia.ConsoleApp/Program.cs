@@ -5,15 +5,16 @@ using Brambillator.CulturedMedia.Service;
 using Brambillator.CulturedMedia.Repositories.EF;
 using Brambillator.CulturedMedia.Domain.Views;
 using Brambillator.CulturedMedia.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Brambillator.CulturedMedia.ConsoleApp
 {
     class Program
     {
         private static bool quit = false;
-        private static EFCulturedMediaUnitOfWork unitOfWork = new EFCulturedMediaUnitOfWork();
-        private static ResourceService resourceService = new ResourceService(unitOfWork);
-        private static CultureService cultureService = new CultureService();
+        private static EFCulturedMediaUnitOfWork unitOfWork;
+        private static ResourceService resourceService;
+        private static CultureService cultureService;
 
         static void Main(string[] args)
         {
@@ -21,6 +22,16 @@ namespace Brambillator.CulturedMedia.ConsoleApp
             Console.InputEncoding = System.Text.Encoding.Unicode;
 
             Console.WriteLine("Initializing repository...");
+
+            string connectionStr = @"Server=(localdb)\MSSQLLocalDB;Database=CulturedMedia;Trusted_Connection=True;";
+
+            DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder();
+            optionsBuilder.UseSqlServer(connectionStr);
+
+            unitOfWork = new EFCulturedMediaUnitOfWork(optionsBuilder.Options);
+            resourceService = new ResourceService(unitOfWork);
+            cultureService = new CultureService();
+
             Repositories.EFCulturedMediaUnitOfWorkInitializer.Initialize(unitOfWork, false);
             Console.WriteLine("");
 
@@ -120,9 +131,7 @@ namespace Brambillator.CulturedMedia.ConsoleApp
 
             try
             {
-                Resource resource = new Resource();
-                resource.Key = textKey;
-                resource.Text = text;
+                Resource resource = new Resource() { Key = textKey, Text = text };
 
                 resourceService.CreateOrUpdateResource(cultureName, resource);
                 Console.WriteLine(string.Format("Saved - Language: {0}, Key: {1}, Text: '{2}';", cultureName, textKey, text));

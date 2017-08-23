@@ -4,6 +4,7 @@ using Brambillator.CulturedMedia.Domain.Lookups;
 using Brambillator.CulturedMedia.Domain.Models;
 using Brambillator.CulturedMedia.Domain.UnitOfWork;
 using Brambillator.CulturedMedia.Repositories.EF;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,16 +19,16 @@ namespace Brambillator.CulturedMedia.Service
     {
         public ICulturedMediaUnitOfWork UnitOfWork { get; set; }
 
-        public ResourceService()
+        public ResourceService(DbContextOptions options)
         {
-            UnitOfWork = new EFCulturedMediaUnitOfWork();
+            UnitOfWork = new EFCulturedMediaUnitOfWork(options);
         }
 
         public ResourceService(ICulturedMediaUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }
-        
+
         /// <summary>
         /// Creates a new text resource with given key for given CultureName or Language.
         /// </summary>
@@ -50,13 +51,11 @@ namespace Brambillator.CulturedMedia.Service
             newEntity.Key = key;
             newEntity.CultureName_Language = language;
             newEntity.CultureName_Local = local;
-            if(title != string.Empty) newEntity.Title = title;
+            if (title != string.Empty) newEntity.Title = title;
             newEntity.Text = text;
             newEntity.ResourceType = ResourceType.Text;
 
             UnitOfWork.Resources.Add(newEntity);
-
-            //UnitOfWork.Commit();
         }
 
         /// <summary>
@@ -123,7 +122,7 @@ namespace Brambillator.CulturedMedia.Service
                                     .Where(r => r.Key == key
                                         && r.CultureName_Language == culture.Language
                                         && r.CultureName_Local == culture.Local).FirstOrDefault();
-            if(res != null)
+            if (res != null)
                 UnitOfWork.Resources.Remove(res);
         }
 
@@ -155,16 +154,16 @@ namespace Brambillator.CulturedMedia.Service
 
             // Retrive by culture name
             ResourceModel res = UnitOfWork.Resources.AsQueryable()
-                                    .Where(r => r.Key == key 
-                                        && r.CultureName_Language == culture.Language 
+                                    .Where(r => r.Key == key
+                                        && r.CultureName_Language == culture.Language
                                         && r.CultureName_Local == culture.Local).FirstOrDefault();
             if (res != null)
                 return res.ToViewModel();
 
             // If not found by culture name, get by language
             res = UnitOfWork.Resources.AsQueryable()
-                                    .Where(r => r.Key == key 
-                                        && r.CultureName_Language == culture.Language 
+                                    .Where(r => r.Key == key
+                                        && r.CultureName_Language == culture.Language
                                         && (r.CultureName_Local == string.Empty || r.CultureName_Local == culture.Local)).FirstOrDefault();
             if (res != null)
                 return res.ToViewModel();
@@ -195,6 +194,28 @@ namespace Brambillator.CulturedMedia.Service
                 return res.ToViewModel();
             else
                 return new Domain.Views.Resource(key);
+        }
+
+        /// <summary>
+        /// Get the resource with given key for all languages.
+        /// </summary>
+        /// <param name="key">Resource Key.</param>
+        /// <returns>Array of resources with same key.</returns>
+        public Domain.Views.Resource[] GetResourceForAllCultures(string key)
+        {
+            Domain.Views.Resource[] resources =
+                        UnitOfWork.Resources.AsQueryable()
+                            .Where(r => r.Key == key)
+                            .Select(v => new Domain.Views.Resource()
+                            {
+                                Key = v.Key,
+                                MediaPath = v.MediaPath,
+                                ResourceType = v.ResourceType,
+                                Text = v.Text,
+                                Title = v.Title
+                            }).ToArray();
+
+            return resources;
         }
 
         /// <summary>
